@@ -12,29 +12,29 @@ axios
   .then(res => {
     console.log(res.data)
     const data = res.data
-    entryPoint.appendChild(cardName(data)) 
+    entryPoint.appendChild(component(data)) 
   })
   .catch(err => {
     console.log(err)
   })
 
-//   const erikGit = 'https://api.github.com/users/ErikTrethewey-J'
+  const erikGit = 'https://api.github.com/users/ErikTrethewey-J'
 
-//   axios.get(`${erikGit}/followers`)
-//   .then(res=>{
-//     const followerObjects = res.data
-//     followerObjects.forEach(object =>{
-//         const followerCard = object.url
-//         axios.get(`${followerCard}`)
-//         .then(res =>{
-//         const followerData = res.data
-//         const followerCard = cardName(followerData)
-//         entryPoint.appendChild(followerCard)
-//     })
-//     .catch(err => console.log(err))
-//   })
-// })
-// .catch(err => console.log(err));
+  axios.get(`${erikGit}/followers`)
+  .then(res=>{
+    const followerObjects = res.data
+    followerObjects.forEach(object =>{
+        const followerCard = object.url
+        axios.get(`${followerCard}`)
+        .then(res =>{
+        const followerData = res.data
+        const followerCard = component(followerData)
+        entryPoint.appendChild(followerCard)
+    })
+    .catch(err => console.log(err))
+  })
+})
+.catch(err => console.log(err));
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -68,9 +68,9 @@ axios
 
 const entryPoint = document.querySelector('.cards')
 
-function cardName(obj){
+function component(obj){
   let div1 = document.createElement('div')
-  div1.classList.add('cards')
+  div1.classList.add('card')
 
   let img1 = document.createElement('img')
   img1.src= obj.avatar_url;
@@ -82,7 +82,7 @@ function cardName(obj){
 
   let ha = document.createElement('h3')
   ha.classList.add('name')
-  ha.textContent = obj.name
+  ha.textContent = `${obj.name}`
   div2.appendChild(ha)
 
   let content = document.createElement('p')
@@ -92,18 +92,18 @@ function cardName(obj){
 
   let content2 = document.createElement('p')
   // location
-  content.textContent =`Location: ${obj.location}`;
+  content2.textContent =`Location: ${obj.location}`;
   div2.appendChild(content2);
 
   let content3 = document.createElement('p')
   // profile
-  content4.textContent = `Profile: `
+  content3.textContent = `Profile: `
   div2.appendChild(content3)
 
   let a = document.createElement('a')
   content3.appendChild(a)
   a.textContent = obj.html_url
-  a.href.textContent = obj.html_url
+  a.href = obj.html_url
 
   let content4 = document.createElement('p')
   content4.textContent = `Followers: ${obj.followers}`
@@ -120,7 +120,7 @@ function cardName(obj){
   // bio
   div2.appendChild(content6)
   
-  return cardName;
+  return div1;
 }
 /*
     <div class="card">
